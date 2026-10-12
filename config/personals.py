@@ -1,13 +1,13 @@
-'''
-Author:     Sai Vignesh Golla
-LinkedIn:   https://www.linkedin.com/in/saivigneshgolla/
+﻿'''
+Author:     Gagandeep Singh
+LinkedIn:   https://www.linkedin.com/in/gagandeep-singh-8b62762a7/
 
-Copyright (c) 2024-2026 Sai Vignesh Golla
+Copyright (c) 2024-2026 Gagandeep Singh
 
 License:    MIT License
             https://opensource.org/license/mit
             
-GitHub:     https://github.com/GodsScion/Auto_job_applier_linkedIn
+GitHub:     https://github.com/gagan-1307/Job-Automation-Agent
 
 version:    2024.11.28.16.00
 '''
@@ -81,7 +81,7 @@ As an independent developer, I pour my heart and soul into creating tools like t
 Your support, whether through donations big or small or simply spreading the word, means the world to me and helps keep this project alive and thriving.
 
 Gratefully yours 🙏🏻,
-Sai Vignesh Golla
+Gagandeep Singh
 '''
 
 # --- Load user settings saved by the local control panel (user_config.json).

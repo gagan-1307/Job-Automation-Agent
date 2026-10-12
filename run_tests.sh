@@ -1,8 +1,8 @@
-#!/bin/bash
+﻿#!/bin/bash
 #
-# Author:  Sai Vignesh Golla
+# Author:  Gagandeep Singh
 # License: MIT License  (https://opensource.org/license/mit)
-# GitHub:  https://github.com/GodsScion/Auto_job_applier_linkedIn
+# GitHub:  https://github.com/gagan-1307/Job-Automation-Agent
 #
 # Run the test suite (Linux/macOS). Sets up the environment the first time,
 # installs test dependencies, then runs pytest and prints a summary.

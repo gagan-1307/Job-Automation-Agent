@@ -1,15 +1,15 @@
-'''
-Author:     Sai Vignesh Golla
-LinkedIn:   https://www.linkedin.com/in/saivigneshgolla/
+﻿'''
+Author:     Gagandeep Singh
+LinkedIn:   https://www.linkedin.com/in/gagandeep-singh-8b62762a7/
 
-Copyright (c) 2024-2026 Sai Vignesh Golla
+Copyright (c) 2024-2026 Gagandeep Singh
 
 License:    MIT License
             https://opensource.org/license/mit
             
-GitHub:     https://github.com/GodsScion/Auto_job_applier_linkedIn
+GitHub:     https://github.com/gagan-1307/Job-Automation-Agent
 
-Support me: https://github.com/sponsors/GodsScion
+Support me: https://github.com/sponsors/gagan-1307
 
 version:    26.01.20.5.08
 '''
@@ -46,6 +46,8 @@ from modules.open_chrome import *
 from modules.helpers import *
 from modules.clickers_and_finders import *
 from modules.validator import validate_config
+from modules.job_state import JobStateMachine, JobState
+from modules.session_report import SessionReport, JobRecord
 
 if use_AI:
     from modules.ai.connections import create_ai_client, extract_skills, answer_question, close_ai_client
@@ -107,6 +109,9 @@ external_jobs_count = 0
 failed_count = 0
 skip_count = 0
 dailyEasyApplyLimitReached = False
+
+# Session dashboard - collects per-job state machines for the HTML report
+session = SessionReport()
 
 re_experience = re.compile(r'[(]?\s*(\d+)\s*[)]?\s*[-to]*\s*\d*[+]*\s*year[s]?', re.IGNORECASE)
 
@@ -868,7 +873,7 @@ def answer_questions(modal: WebElement, questions_list: set, work_location: str,
                 elif label_has(label, 'website', 'blog', 'portfolio', 'link', 'links'): answer = website
                 elif label_has(label, 'scale of 1-10'): answer = confidence_level
                 elif label_has(label, 'headline'): answer = linkedin_headline
-                elif label_has(label, 'hear', 'heard', 'come across') and label_has(label, 'this') and label_has(label, 'job', 'position'): answer = "https://github.com/GodsScion/Auto_job_applier_linkedIn"
+                elif label_has(label, 'hear', 'heard', 'come across') and label_has(label, 'this') and label_has(label, 'job', 'position'): answer = "https://github.com/gagan-1307/Job-Automation-Agent"
                 elif label_has(label, 'state', 'province'): answer = state
                 elif label_has(label, 'zip', 'zipcode', 'postal', 'postcode', 'code'): answer = zipcode
                 elif label_has(label, 'country'): answer = country
@@ -1199,12 +1204,22 @@ def apply_to_jobs(search_terms: list[str]) -> None:
                     print_lg("\n-@-\n")
 
                     job_id,title,company,work_location,work_style,skip = get_job_main_details(job, blacklisted_companies, rejected_jobs)
-                    
-                    if skip: continue
+
+                    # --- State machine: DISCOVERED -----------------------
+                    sm = JobStateMachine(job_id=job_id, title=title, company=company)
+
+                    if skip:
+                        sm.mark_skipped("pre-click filter: blacklisted / already applied")
+                        print_lg(sm.summary())
+                        session.add(JobRecord(job_id, title, company, sm, searchTerm))
+                        continue
                     # Redundant fail safe check for applied jobs!
                     try:
                         if job_id in applied_jobs or find_by_class(driver, "jobs-s-apply__application-link", 2):
                             print_lg(f'Already applied to "{title} | {company}" job. Job ID: {job_id}!')
+                            sm.mark_skipped("already applied (redundant check)")
+                            print_lg(sm.summary())
+                            session.add(JobRecord(job_id, title, company, sm, searchTerm))
                             continue
                     except Exception as e:
                         print_lg(f'Trying to Apply to "{title} | {company}" job. Job ID: {job_id}')
@@ -1227,6 +1242,9 @@ def apply_to_jobs(search_terms: list[str]) -> None:
                     except ValueError as e:
                         print_lg(e, 'Skipping this job!\n')
                         failed_job(job_id, job_link, resume, date_listed, "Found Blacklisted words in About Company", e, "Skipped", screenshot_name)
+                        sm.mark_skipped("blacklisted word in About Company")
+                        print_lg(sm.summary())
+                        session.add(JobRecord(job_id, title, company, sm, searchTerm))
                         skip_count += 1
                         continue
                     except Exception as e:
@@ -1280,8 +1298,14 @@ def apply_to_jobs(search_terms: list[str]) -> None:
                         print_lg(message)
                         failed_job(job_id, job_link, resume, date_listed, reason, message, "Skipped", screenshot_name)
                         rejected_jobs.add(job_id)
+                        sm.mark_skipped(reason or "job description filter")
+                        print_lg(sm.summary())
+                        session.add(JobRecord(job_id, title, company, sm, searchTerm))
                         skip_count += 1
                         continue
+
+                    # --- State machine: MATCHED --------------------------
+                    sm.mark_matched("passed description / experience / sponsorship filters")
 
                     
                     if use_AI and description != "Unknown":
@@ -1321,7 +1345,7 @@ def apply_to_jobs(search_terms: list[str]) -> None:
                             try: actions.send_keys(Keys.ESCAPE).perform()
                             except: pass
                     if is_easy_apply:
-                        try: 
+                        try:
                             # Bound before the try: the finally below scopes its clicks to the
                             # modal, and an unbound name in there would replace the real failure.
                             modal = driver
@@ -1334,6 +1358,8 @@ def apply_to_jobs(search_terms: list[str]) -> None:
                                 questions_list = set()
                                 next_counter = 0
                                 blocked_questions = None
+                                # --- State machine: PREPARING ---------------
+                                sm.mark_preparing("Easy Apply modal opened")
                                 while next_button:
                                     next_counter += 1
                                     if next_counter >= 15: 
@@ -1351,6 +1377,8 @@ def apply_to_jobs(search_terms: list[str]) -> None:
                                     # counter above gives them, so only bail out when it is off.
                                     if not pause_at_failed_question and questions_are_stalled(blocked_questions):
                                         errored = "stuck"
+                                        # --- State machine: NEEDS_INPUT -----
+                                        sm.mark_needs_input(unanswered_questions)
                                         raise UnansweredQuestions(
                                             'Skipping "{}" - no answer in config/questions.py for:\n  {}'.format(
                                                 title, "\n  ".join(sorted(unanswered_questions))))
@@ -1383,17 +1411,23 @@ def apply_to_jobs(search_terms: list[str]) -> None:
                                     print_lg('"stop_before_submit" is on: reached the Review step with everything filled in. Discarding this application instead of submitting it.')
                                     raise StoppedBeforeSubmit("Reached Review with everything filled in, then discarded because stop_before_submit is on.")
                                 elif errored != "stuck" and cur_pause_before_submit:
+                                    # --- State machine: AWAITING_APPROVAL ---
+                                    sm.mark_awaiting_approval()
                                     decision = pyautogui.confirm('1. Please verify your information.\n2. If you edited something, please return to this final screen.\n3. DO NOT CLICK "Submit Application".\n\n\n\n\nYou can turn off "Pause before submit" setting in config.py\nTo TEMPORARILY disable pausing, click "Disable Pause"', "Confirm your information",["Disable Pause", "Discard Application", "Submit Application"])
                                     if decision == "Discard Application": discard_reason = "Job application discarded by user!"
                                     else: pause_before_submit = False if "Disable Pause" == decision else True
                                     # try_xp(modal, ".//span[normalize-space(.)='Review']")
                                 if not discard_reason:
                                     follow_company(modal)
-                                    if wait_xp_click(modal, submit_button_xpath, 2, scrollTop=True): 
+                                    if wait_xp_click(modal, submit_button_xpath, 2, scrollTop=True):
                                         date_applied = datetime.now()
+                                        # --- State machine: SUBMITTED --------
+                                        sm.mark_submitted(application_link)
                                         if not wait_span_click(driver, "Done", 2): actions.send_keys(Keys.ESCAPE).perform()
                                     elif errored != "stuck" and cur_pause_before_submit and "Yes" in pyautogui.confirm("You submitted the application, didn't you 😒?", "Failed to find Submit Application!", ["Yes", "No"]):
                                         date_applied = datetime.now()
+                                        # --- State machine: SUBMITTED (manual confirm) --
+                                        sm.mark_submitted(application_link)
                                         wait_span_click(driver, "Done", 2)
                                     else:
                                         logger.warning("Since, Submit Application failed, discarding the job application...")
@@ -1408,6 +1442,9 @@ def apply_to_jobs(search_terms: list[str]) -> None:
                             # Not a failure: the dry run did what it was asked. Counting it as
                             # failed made a perfectly good stop_before_submit run read as 0/0/all-failed.
                             print_lg(str(e))
+                            sm.mark_skipped("stop_before_submit dry-run")
+                            print_lg(sm.summary())
+                            session.add(JobRecord(job_id, title, company, sm, searchTerm))
                             skip_count += 1
                             discard_job()
                             continue
@@ -1415,6 +1452,12 @@ def apply_to_jobs(search_terms: list[str]) -> None:
                         except UnansweredQuestions as e:
                             print_lg(str(e))
                             print_lg("Add those answers to config/questions.py and re-run to apply to this job.")
+                            # SM may already be at NEEDS_INPUT; only transition if still in PREPARING.
+                            if sm.state == JobState.PREPARING:
+                                sm.mark_needs_input(unanswered_questions)
+                            sm.mark_skipped("UnansweredQuestions - add to config/questions.py")
+                            print_lg(sm.summary())
+                            session.add(JobRecord(job_id, title, company, sm, searchTerm))
                             skip_count += 1
                             discard_job()
                             continue
@@ -1424,18 +1467,48 @@ def apply_to_jobs(search_terms: list[str]) -> None:
                             # print_lg(e)
                             critical_error_log("Somewhere in Easy Apply process",e)
                             failed_job(job_id, job_link, resume, date_listed, "Problem in Easy Applying", e, application_link, screenshot_name)
+                            sm.mark_failed(f"Easy Apply exception: {type(e).__name__}")
+                            print_lg(sm.summary())
+                            session.add(JobRecord(job_id, title, company, sm, searchTerm))
                             failed_count += 1
                             discard_job()
                             continue
                     else:
                         # Case 2: Apply externally
+                        # --- State machine: PREPARING (external) --------
+                        sm.mark_matched("external apply path") if sm.state == JobState.DISCOVERED else None
+                        sm.mark_preparing("external apply link opened") if sm.state == JobState.MATCHED else None
                         skip, application_link, tabs_count = external_apply(pagination_element, job_id, job_link, resume, date_listed, application_link, screenshot_name)
                         if dailyEasyApplyLimitReached:
                             print_lg("\n###############  Daily application limit for Easy Apply is reached!  ###############\n")
                             return
-                        if skip: continue
+                        if skip:
+                            sm.mark_skipped("external apply skipped")
+                            print_lg(sm.summary())
+                            session.add(JobRecord(job_id, title, company, sm, searchTerm))
+                            continue
+                        # External link saved counts as SUBMITTED
+                        if sm.state not in {JobState.SUBMITTED, JobState.FAILED, JobState.SKIPPED}:
+                            sm.mark_submitted(application_link)
 
-                    submitted_jobs(job_id, title, company, work_location, work_style, description, experience_required, skills, hr_name, hr_link, resume, reposted, date_listed, date_applied, job_link, application_link, questions_list, connect_request)
+                    # --- State machine: VERIFIED -------------------------
+                    try:
+                        submitted_jobs(job_id, title, company, work_location, work_style, description, experience_required, skills, hr_name, hr_link, resume, reposted, date_listed, date_applied, job_link, application_link, questions_list, connect_request)
+                        if sm.state == JobState.SUBMITTED:
+                            sm.mark_verified()
+                        print_lg(sm.summary())
+                        session.add(JobRecord(
+                            job_id, title, company, sm, searchTerm,
+                            work_location=work_location,
+                            work_style=work_style,
+                            experience_required=str(experience_required),
+                        ))
+                    except Exception as csv_err:
+                        sm.mark_failed(f"CSV write error: {type(csv_err).__name__}")
+                        print_lg(sm.summary())
+                        session.add(JobRecord(job_id, title, company, sm, searchTerm))
+                        raise
+
                     if uploaded:   useNewResume = False
 
                     print_lg(f'Successfully saved "{title} | {company}" job. Job ID: {job_id} info')
@@ -1477,9 +1550,8 @@ def run(total_runs: int) -> int:
     print_lg(f"Cycle number: {total_runs}")
     print_lg(f"Currently looking for jobs posted within '{date_posted}' and sorting them by '{sort_by}'")
     apply_to_jobs(search_terms)
+    session.run_cycles += 1
     print_lg("########################################################################################################################\n")
-    # Only wait between cycles when there is actually going to be another cycle. This used
-    # to run at the end of every single run, which reads as a 10 minute hang.
     if run_non_stop and not dailyEasyApplyLimitReached:
         print_lg("Sleeping for 10 min...")
         sleep(300)
@@ -1493,7 +1565,7 @@ def run(total_runs: int) -> int:
 linkedIn_tab = False
 
 def main() -> None:
-    pyautogui.alert("Please consider sponsoring this project at:\n\nhttps://github.com/sponsors/GodsScion\n\n", "Support the project", "Okay")
+    pyautogui.alert("Please consider sponsoring this project at:\n\nhttps://github.com/sponsors/gagan-1307\n\n", "Support the project", "Okay")
     total_runs = 1
     try:
         global linkedIn_tab, tabs_count, useNewResume, aiClient
@@ -1548,11 +1620,20 @@ def main() -> None:
         print_lg("\nFailed jobs:                    {}".format(failed_count))
         print_lg("Irrelevant jobs skipped:        {}\n".format(skip_count))
         if randomly_answered_questions: print_lg("\n\nQuestions randomly answered:\n  {}  \n\n".format(";\n".join(str(question) for question in randomly_answered_questions)))
+        # --- Generate HTML session dashboard ----------------------------
+        try:
+            report_ts   = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+            report_path = f"{logs_folder_path}/session_{report_ts}.html".replace("//", "/")
+            saved_to    = session.save(report_path)
+            print_lg(f"\nSession dashboard saved -> {saved_to}")
+            print_lg("Open it in any browser to review applied / skipped / failed jobs.")
+        except Exception as rep_err:
+            logger.warning("Failed to save session dashboard: %s", rep_err)
         quotes = choice([
-            "Never quit. You're one step closer than before. - Sai Vignesh Golla", 
-            "All the best with your future interviews, you've got this. - Sai Vignesh Golla", 
-            "Keep up with the progress. You got this. - Sai Vignesh Golla", 
-            "If you're tired, learn to take rest but never give up. - Sai Vignesh Golla",
+            "Never quit. You're one step closer than before. - Gagandeep Singh", 
+            "All the best with your future interviews, you've got this. - Gagandeep Singh", 
+            "Keep up with the progress. You got this. - Gagandeep Singh", 
+            "If you're tired, learn to take rest but never give up. - Gagandeep Singh",
             "Success is not final, failure is not fatal, It is the courage to continue that counts. - Winston Churchill (Not a sponsor)",
             "Believe in yourself and all that you are. Know that there is something inside you that is greater than any obstacle. - Christian D. Larson (Not a sponsor)",
             "Every job is a self-portrait of the person who does it. Autograph your work with excellence. - Jessica Guidobono (Not a sponsor)",
@@ -1568,7 +1649,7 @@ def main() -> None:
         if timeSaved > 0:
             timeSaved += 60
             timeSavedMsg = f"In this run, you saved approx {round(timeSaved/60)} mins ({timeSaved} secs), please consider supporting the project."
-        msg = f"{quotes}\n\n\n{timeSavedMsg}\nYou can also get your quote and name shown here, or prioritize your bug reports by supporting the project at:\n\nhttps://github.com/sponsors/GodsScion\n\n\nSummary:\n{summary}\n\n\nBest regards,\nSai Vignesh Golla\nhttps://www.linkedin.com/in/saivigneshgolla/\n\nTop Sponsors:\n{sponsors}"
+        msg = f"{quotes}\n\n\n{timeSavedMsg}\nYou can also get your quote and name shown here, or prioritize your bug reports by supporting the project at:\n\nhttps://github.com/sponsors/gagan-1307\n\n\nSummary:\n{summary}\n\n\nBest regards,\nGagandeep Singh\nhttps://www.linkedin.com/in/gagandeep-singh-8b62762a7/\n\nTop Sponsors:\n{sponsors}"
         pyautogui.alert(msg, "Exiting..")
         print_lg(msg,"Closing the browser...")
         if tabs_count >= 10:

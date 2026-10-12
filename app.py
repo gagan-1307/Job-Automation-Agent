@@ -1,8 +1,8 @@
-'''
-Author:     Sai Vignesh Golla
+﻿'''
+Author:     Gagandeep Singh
 License:    MIT License
             https://opensource.org/license/mit
-GitHub:     https://github.com/GodsScion/Auto_job_applier_linkedIn
+GitHub:     https://github.com/gagan-1307/Job-Automation-Agent
 
 Local "control panel" web app. It lets a non-technical person configure and run
 the tool from a browser instead of editing Python files and using a terminal.

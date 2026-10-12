@@ -1,15 +1,15 @@
-'''
-Author:     Sai Vignesh Golla
-LinkedIn:   https://www.linkedin.com/in/saivigneshgolla/
+﻿'''
+Author:     Gagandeep Singh
+LinkedIn:   https://www.linkedin.com/in/gagandeep-singh-8b62762a7/
 
-Copyright (c) 2024-2026 Sai Vignesh Golla
+Copyright (c) 2024-2026 Gagandeep Singh
 
 License:    MIT License
             https://opensource.org/license/mit
             
-GitHub:     https://github.com/GodsScion/Auto_job_applier_linkedIn
+GitHub:     https://github.com/gagan-1307/Job-Automation-Agent
 
-Support me: https://github.com/sponsors/GodsScion
+Support me: https://github.com/sponsors/gagan-1307
 
 version:    26.01.20.5.08
 '''
@@ -108,7 +108,7 @@ except SessionNotCreatedException as e:
     logger.warning("Failed to create Chrome Session, retrying with guest profile", exc_info=e)
     options, driver, actions, wait = createChromeSession(True)
 except Exception as e:
-    msg = 'Seems like Google Chrome is out dated. Update browser and try again! \n\n\nIf issue persists, try Safe Mode. Set, safe_mode = True in config.py \n\nPlease check GitHub discussions/support for solutions https://github.com/GodsScion/Auto_job_applier_linkedIn \n                                   OR \nReach out in discord ( https://discord.gg/fFp7uUzWCY )'
+    msg = 'Seems like Google Chrome is out dated. Update browser and try again! \n\n\nIf issue persists, try Safe Mode. Set, safe_mode = True in config.py \n\nPlease check GitHub discussions/support for solutions https://github.com/gagan-1307/Job-Automation-Agent \n                                   OR \nReach out in discord ( https://discord.gg/fFp7uUzWCY )'
     if isinstance(e,TimeoutError): msg = "Couldn't download Chrome-driver. Set auto_manage_driver = False in config!"
     logger.error(msg)
     critical_error_log("In Opening Chrome", e)

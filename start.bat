@@ -1,9 +1,9 @@
-@echo off
+﻿@echo off
 REM
-REM Author:  Sai Vignesh Golla
+REM Author:  Gagandeep Singh
 REM License: MIT License
 REM          https://opensource.org/license/mit
-REM GitHub:  https://github.com/GodsScion/Auto_job_applier_linkedIn
+REM GitHub:  https://github.com/gagan-1307/Job-Automation-Agent
 REM
 REM One-click launcher for Windows. Double-click this file. It sets up everything
 REM the first time, then opens the control panel in your web browser. Safe to run

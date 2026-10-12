@@ -1,15 +1,15 @@
-'''
-Author:     Sai Vignesh Golla
-LinkedIn:   https://www.linkedin.com/in/saivigneshgolla/
+﻿'''
+Author:     Gagandeep Singh
+LinkedIn:   https://www.linkedin.com/in/gagandeep-singh-8b62762a7/
 
-Copyright (c) 2024-2026 Sai Vignesh Golla
+Copyright (c) 2024-2026 Gagandeep Singh
 
 License:    MIT License
             https://opensource.org/license/mit
             
-GitHub:     https://github.com/GodsScion/Auto_job_applier_linkedIn
+GitHub:     https://github.com/gagan-1307/Job-Automation-Agent
 
-Support me: https://github.com/sponsors/GodsScion
+Support me: https://github.com/sponsors/gagan-1307
 
 version:    26.01.20.5.08
 '''
@@ -30,10 +30,10 @@ years_of_experience = "5"          # A number in quotes Eg: "0","1","2","3","4",
 require_visa = "No"               # "Yes" or "No"
 
 # What is the link to your portfolio website, leave it empty as "", if you want to leave this question unanswered
-website = "https://github.com/GodsScion"                        # "www.example.bio" or "" and so on....
+website = "https://github.com/gagan-1307"                        # "www.example.bio" or "" and so on....
 
 # Please provide the link to your LinkedIn profile.
-linkedIn = "https://www.linkedin.com/in/saivigneshgolla/"       # "https://www.linkedin.com/in/example" or "" and so on...
+linkedIn = "https://www.linkedin.com/in/gagandeep-singh-8b62762a7/"       # "https://www.linkedin.com/in/example" or "" and so on...
 
 # Do you ALREADY have permission to work in the country you are applying to? (Eg: citizen, permanent resident, or a valid work visa such as H-1B or OPT)
 # This is NOT `require_visa`, which asks whether you need sponsorship. Someone on a valid work visa answers "Yes" to both.
@@ -162,7 +162,7 @@ As an independent developer, I pour my heart and soul into creating tools like t
 Your support, whether through donations big or small or simply spreading the word, means the world to me and helps keep this project alive and thriving.
 
 Gratefully yours 🙏🏻,
-Sai Vignesh Golla
+Gagandeep Singh
 '''
 
 # --- Load user settings saved by the local control panel (user_config.json).

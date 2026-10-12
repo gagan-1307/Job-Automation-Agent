@@ -1,8 +1,8 @@
-'''
-Author:     Sai Vignesh Golla
+﻿'''
+Author:     Gagandeep Singh
 License:    MIT License
             https://opensource.org/license/mit
-GitHub:     https://github.com/GodsScion/Auto_job_applier_linkedIn
+GitHub:     https://github.com/gagan-1307/Job-Automation-Agent
 
 Describes every user-editable setting that the local control panel (app.py +
 templates/control_panel.html) exposes in the browser.

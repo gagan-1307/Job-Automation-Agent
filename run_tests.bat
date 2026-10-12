@@ -1,8 +1,8 @@
-@echo off
+﻿@echo off
 REM
-REM Author:  Sai Vignesh Golla
+REM Author:  Gagandeep Singh
 REM License: MIT License  (https://opensource.org/license/mit)
-REM GitHub:  https://github.com/GodsScion/Auto_job_applier_linkedIn
+REM GitHub:  https://github.com/gagan-1307/Job-Automation-Agent
 REM
 REM Run the test suite on Windows. Double-click this file, or run it from a
 REM terminal. It sets up the environment the first time, then runs the tests.

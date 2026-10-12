@@ -1,8 +1,8 @@
-'''
-Author:     Sai Vignesh Golla
+﻿'''
+Author:     Gagandeep Singh
 License:    MIT License
             https://opensource.org/license/mit
-GitHub:     https://github.com/GodsScion/Auto_job_applier_linkedIn
+GitHub:     https://github.com/gagan-1307/Job-Automation-Agent
 
 Loads user settings saved by the local control panel (see app.py) from
 `user_config.json` at the project root, and applies them over the Python

@@ -1,9 +1,9 @@
-#!/bin/bash
+﻿#!/bin/bash
 #
-# Author:  Sai Vignesh Golla
+# Author:  Gagandeep Singh
 # License: MIT License
 #          https://opensource.org/license/mit
-# GitHub:  https://github.com/GodsScion/Auto_job_applier_linkedIn
+# GitHub:  https://github.com/gagan-1307/Job-Automation-Agent
 #
 # One-click launcher for Linux. Run it with:  ./start.sh
 # It sets up everything the first time, then opens the control panel in your web

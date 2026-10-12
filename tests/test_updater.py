@@ -1,4 +1,4 @@
-'''
+﻿'''
 Unit tests for modules/updater.py - the version check and the one-button
 `git pull`. Two guarantees are worth pinning down, because breaking either one
 is silent:
@@ -151,7 +151,7 @@ def test_latest_version_enforces_the_timeout(monkeypatch):
 # ---------------------------------------------------------------------------
 # self_update()
 # ---------------------------------------------------------------------------
-_ORIGIN = "https://github.com/GodsScion/Auto_job_applier_linkedIn.git\n"
+_ORIGIN = "https://github.com/gagan-1307/Job-Automation-Agent.git\n"
 
 
 def test_self_update_restores_the_stash_when_the_pull_fails(monkeypatch):

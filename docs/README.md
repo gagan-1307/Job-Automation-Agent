@@ -1,4 +1,4 @@
-# Documentation
+﻿# Documentation
 
 Everything about the LinkedIn AI Auto Job Applier that does not fit on the
 [front page](../README.md).
@@ -30,7 +30,7 @@ One page per file in `config/`.
 | [Contributors and the MIT relicense record](contributor-consent/contributors.md) | Acknowledgements for the AGPL-era contributors, and how the relicense was done |
 | [Disclaimer, Terms and License](legal.md) | Read this before you use the tool |
 | [Support and community](support.md) | Discord, GitHub Discussions, socials, sponsoring |
-| [Releases](https://github.com/GodsScion/Auto_job_applier_linkedIn/releases) | Version history and release notes |
+| [Releases](https://github.com/gagan-1307/Job-Automation-Agent/releases) | Version history and release notes |
 
 ---
 

@@ -1,4 +1,4 @@
-# Disclaimer, Terms and License
+﻿# Disclaimer, Terms and License
 
 ## Disclaimer
 
@@ -34,7 +34,7 @@ Please consider the following:
 
 ## License
 
-Copyright (c) 2024-2026 Sai Vignesh Golla  <saivigneshgolla@outlook.com>
+Copyright (c) 2024-2026 Gagandeep Singh  <gagan-1307@github.com>
 
 This project is licensed under the **MIT License**. You are free to use, copy, modify, and
 distribute it — including in commercial and closed-source work — as long as the copyright

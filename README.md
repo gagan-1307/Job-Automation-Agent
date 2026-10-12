@@ -1,9 +1,9 @@
-# LinkedIn AI Auto Job Applier 🤖
+﻿# LinkedIn AI Auto Job Applier 🤖
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB.svg)](https://www.python.org/downloads/)
 [![Discord](https://img.shields.io/badge/Discord-join-5865F2.svg)](https://discord.gg/fFp7uUzWCY)
-[![Sponsor](https://img.shields.io/badge/Sponsor-GodsScion-EA4AAA.svg)](https://github.com/sponsors/GodsScion)
+[![Sponsor](https://img.shields.io/badge/Sponsor-GodsScion-EA4AAA.svg)](https://github.com/sponsors/gagan-1307)
 
 A free, open-source tool that automates job applications on LinkedIn. It runs entirely on
 your own computer, using your own LinkedIn account. It finds jobs relevant to you, fills in
@@ -15,7 +15,7 @@ reachable only from your own machine.
 
 ## 📽️ See it in Action
 
-[![Auto Job Applier demo video](https://github.com/GodsScion/Auto_job_applier_linkedIn/assets/100998531/429f7753-ebb0-499b-bc5e-5b4ee28c4f69)](https://youtu.be/gMbB1fWZDHw)
+[![Auto Job Applier demo video](https://github.com/gagan-1307/Job-Automation-Agent/assets/100998531/429f7753-ebb0-499b-bc5e-5b4ee28c4f69)](https://youtu.be/gMbB1fWZDHw)
 
 Click the image above to watch the demo, or use this link: https://youtu.be/gMbB1fWZDHw
 
@@ -68,18 +68,18 @@ Full documentation lives in **[`docs/`](docs/README.md)**.
 | [Disclaimer, Terms and License](docs/legal.md) | Read this before you use the tool |
 
 Version history and release notes are on the
-[Releases page](https://github.com/GodsScion/Auto_job_applier_linkedIn/releases).
+[Releases page](https://github.com/gagan-1307/Job-Automation-Agent/releases).
 
 ## 🙌 Community and socials
 
 - **Discord server**: https://discord.gg/fFp7uUzWCY — the fastest place to get help
-- **GitHub Discussions**: https://github.com/GodsScion/Auto_job_applier_linkedIn/discussions
-- **LinkedIn**: https://www.linkedin.com/in/saivigneshgolla/
-- **X/Twitter**: https://x.com/saivigneshgolla
-- **Email**: saivigneshgolla@outlook.com
+- **GitHub Discussions**: https://github.com/gagan-1307/Job-Automation-Agent/discussions
+- **LinkedIn**: https://www.linkedin.com/in/gagandeep-singh-8b62762a7/
+- **X/Twitter**: https://github.com/gagan-1307
+- **Email**: gagan-1307@github.com
 
 If this tool helped you, please share it with your peers, or
-[sponsor the project](https://github.com/sponsors/GodsScion). It is built by one independent
+[sponsor the project](https://github.com/sponsors/gagan-1307). It is built by one independent
 developer.
 
 ## 📜 Disclaimer
@@ -91,6 +91,6 @@ with.** See [Disclaimer, Terms and Conditions](docs/legal.md).
 
 ## ⚖️ License
 
-Copyright (c) 2024-2026 Sai Vignesh Golla. Licensed under the **MIT License** — see
+Copyright (c) 2024-2026 Gagandeep Singh. Licensed under the **MIT License** — see
 [`LICENSE`](LICENSE). Releases before August 2026 were AGPL-3.0; see [`NOTICE`](NOTICE) for
 the relicensing history.

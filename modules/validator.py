@@ -1,15 +1,15 @@
-'''
-Author:     Sai Vignesh Golla
-LinkedIn:   https://www.linkedin.com/in/saivigneshgolla/
+﻿'''
+Author:     Gagandeep Singh
+LinkedIn:   https://www.linkedin.com/in/gagandeep-singh-8b62762a7/
 
-Copyright (c) 2024-2026 Sai Vignesh Golla
+Copyright (c) 2024-2026 Gagandeep Singh
 
 License:    MIT License
             https://opensource.org/license/mit
             
-GitHub:     https://github.com/GodsScion/Auto_job_applier_linkedIn
+GitHub:     https://github.com/gagan-1307/Job-Automation-Agent
 
-Support me: https://github.com/sponsors/GodsScion
+Support me: https://github.com/sponsors/gagan-1307
 
 version:    26.01.20.5.08
 '''

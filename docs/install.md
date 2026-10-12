@@ -1,4 +1,4 @@
-# Installation
+﻿# Installation
 
 There are two ways to set this up. Both need the same two things installed first:
 **Python** and **Google Chrome**.
@@ -20,7 +20,7 @@ https://youtu.be/f9rdz74e1lM (recommended to watch at 2x speed).
    Store. **Make sure Python is added to Path in your System Environment Variables.**
 
 2. **Get the project.** Clone the repo or download it as a ZIP:
-   https://github.com/GodsScion/Auto_job_applier_linkedIn
+   https://github.com/gagan-1307/Job-Automation-Agent
 
 3. **Install the Python packages.** Open a console/terminal in the project folder and run
    the command below. It uses [pip](https://pip.pypa.io/en/stable) to install everything
