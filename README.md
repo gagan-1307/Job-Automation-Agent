@@ -3,7 +3,6 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB.svg)](https://www.python.org/downloads/)
 [![Discord](https://img.shields.io/badge/Discord-join-5865F2.svg)](https://discord.gg/fFp7uUzWCY)
-[![Sponsor](https://img.shields.io/badge/Sponsor-GodsScion-EA4AAA.svg)](https://github.com/sponsors/gagan-1307)
 
 A free, open-source tool that automates job applications on LinkedIn. It runs entirely on
 your own computer, using your own LinkedIn account. It finds jobs relevant to you, fills in
@@ -12,12 +11,6 @@ provide. Can apply to 100+ jobs in under an hour.
 
 Nothing is uploaded anywhere: your details stay in local files, and the control panel is
 reachable only from your own machine.
-
-## 📽️ See it in Action
-
-[![Auto Job Applier demo video](https://github.com/gagan-1307/Job-Automation-Agent/assets/100998531/429f7753-ebb0-499b-bc5e-5b4ee28c4f69)](https://youtu.be/gMbB1fWZDHw)
-
-Click the image above to watch the demo, or use this link: https://youtu.be/gMbB1fWZDHw
 
 ## 🚀 Quick start
 
